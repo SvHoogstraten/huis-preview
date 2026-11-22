@@ -1,0 +1,24 @@
+<!DOCTYPE html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Ons nieuwe huis</title>
+<style>body{font:16px system-ui,sans-serif;margin:0;background:#f5f1ea;color:#3b2f24;display:flex;min-height:100vh;align-items:center;justify-content:center}
+form{background:#fff;padding:28px;border-radius:14px;box-shadow:0 2px 12px #0001;width:min(340px,86vw)}h1{font-size:20px;margin:0 0 14px}
+input[type=password]{width:100%;box-sizing:border-box;font-size:16px;padding:10px;border:1px solid #cdbfae;border-radius:8px}
+button{margin-top:14px;width:100%;font-size:16px;padding:10px;border:0;border-radius:8px;background:#7a5a3c;color:#fff;cursor:pointer}
+label{display:block;margin-top:10px;font-size:14px;color:#6b5a48}#e{color:#b42318;font-size:14px;min-height:1.2em;margin-top:8px}</style></head><body>
+<form id="f"><h1>🔒 Beveiligde pagina</h1><input type="password" id="p" placeholder="Wachtwoord" autocomplete="current-password" autofocus>
+<label><input type="checkbox" id="r" checked> Onthouden op dit apparaat</label><button>Openen</button><div id="e"></div></form>
+<script>
+(async()=>{const S="CR7TKYPEzqYS35vam9c36A==",D="iVOrnQvIR/Xfuczn.0ZlppY46Jt7OcM+655Adsd9I37uoYoD5MqDqIsqSwYjwMmrEhnC2wOv82lVtW1xTLe6McpgF1nmgQWINu3BLQrOcCbYXi11Ib4pcQLPz4QKV1cqJR2eeRdTQJrkAJWzwXzH9ppNM/z0ds+xAVcxv4Xeuco/qyBQYtiJgtlEZ4hIGFH1g5PQFYS96l11J7l5K+w4Y8jQrVJv5Uyo9pWTNFmKFFUfl5ix6TMQdL9RGULpx9xG0YM5Rg2iDLBur0sCsjRewRPYlIo5RUcCrGk3pPrYTmsjfYcpTJz9SPGUlq1BVbgduNaK6ymMBen6pXvU5wA7ZBxzJt4O4Uo5lbRK1JrjxcsaavU+HcmXyi7HzVBPtS3FY3scEAbpkuGYwd63pwwC3DpFSV3nodbcsvJ3XvOJYX1xMTQiQ5S9mkLKHrycKIYyUO1eVWFsuqQhQh42Z8KJKtuapKcPgPpbm6koO1HXTjWN34CsTIXC0YemQLIQCjJjfRw9HGInuwSrvejRR0SyQ9KW7QxbPJTxKB4nOXDIGqVyws5N7gOQfANMttitw/3+RkTU/FWgMCtCDWIsK5l/sThz37OlQFEgtVtdIWNtvVHNpnrfQiaJyWHykemOZ76w87bKEop6gFVqfItGafGGxJHKIktw8Feycan0fdBkeiua76weUo8BaA0yq00Ssdo4xxuGajzEdoRU3NhMMJcW5KFH4K/vnIoE5w88S+8H0UtGPDWWi81m4ejk7x/RqTO9ffb51WcBZKFEr+EUYPxlvhsJaerB2rxLCJx8/BgylwCO/j/qeJWufJdJAeIEK0GqofX/3hn/1A9YmDnGothWk9ry8rin07KX/Lj7pGJjhxxzzA+YMvzrVZJcS+7IB+Z9vewd4B6cqw26OQMYqsqwiuwHI3Ew1Nb2/MTII7KAaIyUwcZPuM7wL8LqgZEFqRu185gW/xm9gzupi93832A0rw0m2aA7vYPQoUQqW6wL77GvIAGVbJITBHDI5HwexawfG2a7qtZ+sxtFtnVXhp5f5aJ+FIAJ6dGgN5FDWaYFQ0lD7m5OswVPXndRN0JRnzKco8iKA8T9O9z+MDfeHfVqoWVXfVmGdX1taFx094luNTHxOpJvuoszeGMo9",K='hp-key',E=document.getElementById('e');
+const b=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0)),[iv,ct]=D.split('.').map(b);
+async function open(raw){const k=await crypto.subtle.importKey('raw',raw,'AES-GCM',false,['decrypt']);
+ const z=await crypto.subtle.decrypt({name:'AES-GCM',iv},k,ct);
+ const t=await new Response(new Blob([z]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
+ document.open();document.write(t);document.close();}
+if(!crypto.subtle||!window.DecompressionStream){E.textContent='Deze browser wordt niet ondersteund. Probeer Chrome, Edge, Safari of Firefox (recente versie).';return;}
+const m=localStorage.getItem(K);if(m){try{await open(b(m));return;}catch(x){localStorage.removeItem(K);}}
+document.getElementById('f').onsubmit=async ev=>{ev.preventDefault();E.textContent='Bezig met openen…';
+ try{const pk=await crypto.subtle.importKey('raw',new TextEncoder().encode(document.getElementById('p').value),'PBKDF2',false,['deriveBits']);
+  const raw=new Uint8Array(await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:b(S),iterations:600000},pk,256));
+  await crypto.subtle.decrypt({name:'AES-GCM',iv},await crypto.subtle.importKey('raw',raw,'AES-GCM',false,['decrypt']),ct);
+  if(document.getElementById('r').checked)localStorage.setItem(K,btoa(String.fromCharCode(...raw)));
+  await open(raw);}catch(x){E.textContent='Onjuist wachtwoord.';}};})();
+</script></body></html>
